@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.example.library.customEditText.BetterVisualizerEditText;
 import com.example.library.customEditText.DynamicAmountEditText;
 
-
 public class SampleActivity extends AppCompatActivity {
 
     //functionality for limiting 'n' integer places
