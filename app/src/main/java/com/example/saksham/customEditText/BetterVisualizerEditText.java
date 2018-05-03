@@ -1,4 +1,4 @@
-package com.example.saksham.bettervisualizeredittext;
+package com.example.saksham.customEditText;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 //this edittext will also limit the number of characters to 'n'
 public class BetterVisualizerEditText extends AppCompatEditText implements TextWatcher{
 
-    public static final String TAG = BetterVisualizerEditText.class.getSimpleName();
+    private static final String TAG = BetterVisualizerEditText.class.getSimpleName();
     public static final int DEFAULT_WORD_LIMIT = 7;
     public static final int DEFAULT_SPACE_AFTER = 4;
 
@@ -40,8 +40,8 @@ public class BetterVisualizerEditText extends AppCompatEditText implements TextW
     public void init(AttributeSet set) {
         addTextChangedListener(this);
         setInputType(InputType.TYPE_CLASS_NUMBER);
-
         setKeyListener(DigitsKeyListener.getInstance("0123456789-"));
+
         if (set == null)
             return;
 
@@ -66,7 +66,6 @@ public class BetterVisualizerEditText extends AppCompatEditText implements TextW
             if (spaceAfter != 0 && (getActualText().length() % spaceAfter == 0) && !isErasing(s) && isAdded) {
                 isAdded = false;
                 append("-");
-                setSelection(s.length());
             } else {
                 isAdded = true;
             }

@@ -1,4 +1,4 @@
-package com.example.saksham.bettervisualizeredittext;
+package com.example.saksham.customEditText;
 
 import org.junit.Test;
 

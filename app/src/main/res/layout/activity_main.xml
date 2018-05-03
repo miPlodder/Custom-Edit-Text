@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <com.example.saksham.bettervisualizeredittext.BetterVisualizerEditText
-        android:id="@+id/bvet"
-        app:wordLimit="10"
-        app:spaceAfter="3"
+    <com.example.saksham.customEditText.DynamicAmountEditText
+        android:id="@+id/da_et"
+        app:integerLimit="5"
+        app:decimalLimit="3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

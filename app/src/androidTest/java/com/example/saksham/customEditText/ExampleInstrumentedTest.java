@@ -1,4 +1,4 @@
-package com.example.saksham.bettervisualizeredittext;
+package com.example.saksham.customEditText;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
