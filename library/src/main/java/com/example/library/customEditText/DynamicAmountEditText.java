@@ -1,4 +1,4 @@
-package com.example.library;
+package com.example.library.customEditText;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.library.R;
 
 //this custom edittext will add specific number of integer and decimal places
 public class DynamicAmountEditText extends AppCompatEditText implements TextWatcher, View.OnFocusChangeListener{
@@ -35,7 +37,7 @@ public class DynamicAmountEditText extends AppCompatEditText implements TextWatc
         init(attrs);
     }
 
-    public void init(AttributeSet attrs) {
+    private void init(AttributeSet attrs) {
 
         addTextChangedListener(this);
         setOnFocusChangeListener(this);
@@ -125,6 +127,7 @@ public class DynamicAmountEditText extends AppCompatEditText implements TextWatc
         }
     }
 
+    //use this method instead of getText() to get text
     public Editable getActualText() {
         if (getEditableText().length() != 0 && getEditableText().charAt(getEditableText().length() - 1) == '.') {
             return removeLast(getEditableText());

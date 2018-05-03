@@ -1,4 +1,4 @@
-package com.example.library;
+package com.example.library.customEditText;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,6 +8,8 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
+
+import com.example.library.R;
 
 //this edittext will create space after 'n' characters
 //this edittext will also limit the number of characters to 'n'
@@ -37,7 +39,7 @@ public class BetterVisualizerEditText extends AppCompatEditText implements TextW
         init(attrs);
     }
 
-    public void init(AttributeSet set) {
+    private void init(AttributeSet set) {
         addTextChangedListener(this);
         setInputType(InputType.TYPE_CLASS_NUMBER);
         setKeyListener(DigitsKeyListener.getInstance("0123456789-"));
@@ -83,6 +85,7 @@ public class BetterVisualizerEditText extends AppCompatEditText implements TextW
         }
     }
 
+    //use this method instead of getText() to get the text
     public String getActualText() {
         return getText().toString().replace("-", "");
     }
