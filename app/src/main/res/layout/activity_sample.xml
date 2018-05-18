@@ -23,8 +23,8 @@
 
     <com.example.library.customEditText.BetterVisualizerEditText
         android:id="@+id/bv_et"
-        app:spaceAfter="3"
-        app:wordLimit="9"
+        app:spaceAfter="4"
+        app:wordLimit="10"
         android:hint="BetterVisualizerEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
