@@ -11,18 +11,24 @@ import android.util.AttributeSet;
 
 import com.example.library.R;
 
-//this edittext will create space after 'n' characters
-//this edittext will also limit the number of characters to 'n'
-public class BetterVisualizerEditText extends AppCompatEditText implements TextWatcher{
+//this EditText will create space after 'n' characters
+//this EditText will also limit the number of characters to 'n'
+public class BetterVisualizerEditText extends AppCompatEditText implements TextWatcher {
 
     private static final String TAG = BetterVisualizerEditText.class.getSimpleName();
     public static final int DEFAULT_WORD_LIMIT = 7;
     public static final int DEFAULT_SPACE_AFTER = 4;
 
+    //number of total digits
     private int wordLimit;
-    private int currWordLength;
+
+    //number of digits after which you want space
     private int spaceAfter;
-    private boolean isAdded = true;
+
+    private boolean isErasing;
+    private boolean isFromReplaced = false;
+    private int counter = 0;
+    private int previousWordLength ;
 
     public BetterVisualizerEditText(Context context) {
         super(context);
@@ -42,7 +48,7 @@ public class BetterVisualizerEditText extends AppCompatEditText implements TextW
     private void init(AttributeSet set) {
         addTextChangedListener(this);
         setInputType(InputType.TYPE_CLASS_NUMBER);
-        setKeyListener(DigitsKeyListener.getInstance("0123456789-"));
+        setKeyListener(DigitsKeyListener.getInstance("0123456789 "));
 
         if (set == null)
             return;
@@ -56,37 +62,70 @@ public class BetterVisualizerEditText extends AppCompatEditText implements TextW
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        previousWordLength = s.length();
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (previousWordLength > s.length()) {
+            isErasing = true;
+        } else {
+            isErasing = false;
+        }
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (getActualText().length() <= wordLimit) {
-            if (spaceAfter != 0 && (getActualText().length() % spaceAfter == 0) && !isErasing(s) && isAdded) {
-                isAdded = false;
-                append("-");
+        if (getText().length() != 0) {
+            if (getText().toString().length() <= (wordLimit + getSpaceCount())) {
+                if (isFromReplaced) {
+                    isFromReplaced = false;
+                    return;
+                }
+                if (!isErasing) { //writing
+                    counter++;
+                    if (counter == spaceAfter+1) {
+                        s.insert(s.length()-1, " " );
+                        counter = 1;
+                    }
+                } else { //erasing
+                    counter--;
+                    if (counter == 0) {
+                        removeLastIfSpace(s);
+                        counter = spaceAfter;
+                    }
+                }
             } else {
-                isAdded = true;
+                isFromReplaced = true;
+                s.replace(s.length() - 1, s.length(), "");
             }
-            currWordLength = s.length();
+            setSelection(s.length());
         } else {
-            s.replace(s.length() - 1, s.length(), "");
-        }
-    }
-
-    private boolean isErasing(Editable s) {
-        if (s.length() < currWordLength) {
-            return true;
-        } else {
-            return false;
+            counter = 0;
         }
     }
 
     //use this method instead of getText() to get the text
     public String getActualText() {
-        return getText().toString().replace("-", "");
+        return getText().toString().replace(" ", "");
+    }
+
+    public long getSpaceCount() {
+        if (wordLimit%spaceAfter == 0) { //symmetric case
+          return Math.round(wordLimit/spaceAfter) - 1;
+        }
+        return Math.round(Math.floor(wordLimit/spaceAfter));
+    }
+
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        super.onSelectionChanged(selStart, selEnd);
+        setSelection(getEditableText().length());
+    }
+
+    private void removeLastIfSpace(Editable s) {
+        if (s.toString().toCharArray()[s.length()-1] == ' ') {
+            s.replace(s.length()-1, s.length(), "");
+        }
     }
 }
